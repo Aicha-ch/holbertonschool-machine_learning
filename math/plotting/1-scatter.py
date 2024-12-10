@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 This function generates a scatter plot for men's height and weight
-based on a multivariate normal distribution;
 """
 import numpy as np
 import matplotlib.pyplot as plt
