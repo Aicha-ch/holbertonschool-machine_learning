@@ -14,7 +14,7 @@ def bars():
     """
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
-    
+
     people = ['Farrah', 'Fred', 'Felicia']
     colors = ['red', 'yellow', '#ff8000', '#ffe5b4']
     fruits = ['apples', 'bananas', 'oranges', 'peaches']
