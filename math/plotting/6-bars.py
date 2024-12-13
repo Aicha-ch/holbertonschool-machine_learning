@@ -14,22 +14,22 @@ def bars():
     """
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
+    
     people = ['Farrah', 'Fred', 'Felicia']
+    colors = ['red', 'yellow', '#ff8000', '#ffe5b4']
+    fruits = ['apples', 'bananas', 'oranges', 'peaches']
 
-    fruit_labels = ['Apples', 'Bananas', 'Oranges', 'Peaches']
-    fruit_colors = ['red', 'yellow', '#ff8000', '#ffe5b4']
-    bottom_values = np.zeros(len(people))
-
+    bottom = np.zeros(3)
     bar_width = 0.5
-    for row, label, color in zip(fruit, fruit_labels, fruit_colors):
-        plt.bar(people, row, bottom=bottom_values, color=color,
-                width=bar_width, label=label)
-        bottom_values += row
+
+    for i, row in enumerate(fruit):
+        plt.bar(people, row, color=colors[i], label=fruits[i],
+                bottom=bottom, width=0.5)
+        bottom += row
 
     plt.title('Number of Fruit per Person')
     plt.ylabel('Quantity of Fruit')
     plt.ylim(0, 80)
     plt.yticks(range(0, 81, 10))
     plt.legend()
-
     plt.show()
