@@ -149,6 +149,9 @@ class Leaf(Node):
         return [self]
 
     def update_bounds_below(self):
+        """
+        update the bounds for the node and its children.
+        """
         pass
 
     def __str__(self):
@@ -195,6 +198,9 @@ class Decision_Tree():
         return self.root.get_leaves_below()
 
     def update_bounds(self):
+        """
+        Updates the lower and upper bounds for all nodes.
+        """
         self.root.update_bounds_below()
 
     def __str__(self):
