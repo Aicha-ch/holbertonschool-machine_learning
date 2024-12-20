@@ -57,7 +57,8 @@ class Node:
             return 1
 
         if not self.is_leaf:
-            return self.left_child.count_nodes_below(only_leaves=only_leaves) + \
+            return self.left_child.count_nodes_below(
+                only_leaves=only_leaves) + \
                 self.right_child.count_nodes_below(only_leaves=only_leaves) + \
                 (not only_leaves)
 
@@ -66,8 +67,11 @@ class Node:
         String representation of the node.
         """
         node_type = "root" if self.is_root else "node"
-        node_representation = f"{node_type} [feature={self.feature}, threshold={self.threshold}]\n"
-        
+        node_representation = (
+            f"{node_type} [feature={self.feature}, "
+            f"threshold={self.threshold}]\n"
+            )
+
         if self.left_child:
             left_str = self.left_child.__str__().replace("\n", "\n    |  ")
             node_representation += f"    +---> {left_str}"
