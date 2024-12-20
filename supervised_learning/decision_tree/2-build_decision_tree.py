@@ -5,6 +5,22 @@ Decision Tree
 import numpy as np
 
 
+def left_child_add_prefix(text):
+    lines = text.split("\n")
+    new_text = "    +--" + lines[0] + "\n"
+    for x in lines[1:]:
+        new_text += ("    |  " + x) + "\n"
+    return new_text
+
+
+def right_child_add_prefix(text):
+    lines = text.split("\n")
+    new_text = "    +--" + lines[0] + "\n"
+    for x in lines[1:]:
+        new_text += ("       " + x) + "\n"
+    return new_text
+
+
 class Node:
     """
     Represents a node in the decision tree.
@@ -20,21 +36,17 @@ class Node:
         self.right_child = right_child
         self.is_leaf = False
         self.is_root = is_root
-        self.sub_population = None
         self.depth = depth
 
     def max_depth_below(self):
         """
-        Computes the maximum depth of the subtree rooted at this node
+        Computes the maximum depth of the subtree rooted at this node.
         """
-
         max_depth = self.depth
         if self.left_child is not None:
             max_depth = max(max_depth, self.left_child.max_depth_below())
-
         if self.right_child is not None:
             max_depth = max(max_depth, self.right_child.max_depth_below())
-
         return max_depth
 
     def count_nodes_below(self, only_leaves=False):
@@ -45,17 +57,17 @@ class Node:
             return 1
 
         if not self.is_leaf:
-            return self.left_child.count_nodes_below(only_leaves=only_leaves)\
-                + self.right_child.count_nodes_below(only_leaves=only_leaves)\
-                + (not only_leaves)
+            return self.left_child.count_nodes_below(only_leaves=only_leaves) + \
+                self.right_child.count_nodes_below(only_leaves=only_leaves) + \
+                (not only_leaves)
 
     def __str__(self):
         """
         String representation of the node.
         """
         node_type = "root" if self.is_root else "node"
-        node_representation = (f"{node_type} [feature={self.feature}, "
-                               f"threshold={self.threshold}]\n")
+        node_representation = f"{node_type} [feature={self.feature}, threshold={self.threshold}]\n"
+        
         if self.left_child:
             left_str = self.left_child.__str__().replace("\n", "\n    |  ")
             node_representation += f"    +---> {left_str}"
@@ -92,10 +104,10 @@ class Leaf(Node):
         return 1
 
     def __str__(self):
-        return (f"-> leaf [value={self.value}]")
+        return f"leaf [value={self.value}]"
 
 
-class Decision_Tree():
+class Decision_Tree:
     """
     Represents the full decision tree model.
     """
@@ -109,22 +121,19 @@ class Decision_Tree():
             self.root = root
         else:
             self.root = Node(is_root=True)
-        self.explanatory = None
-        self.target = None
         self.max_depth = max_depth
         self.min_pop = min_pop
         self.split_criterion = split_criterion
-        self.predict = None
 
     def depth(self):
         """
-         Returns the maximum depth of the entire tree.
+        Returns the maximum depth of the entire tree.
         """
         return self.root.max_depth_below()
 
     def count_nodes(self, only_leaves=False):
         """
-        Counts the total nodes or only leaf nodes in the tree
+        Counts the total nodes or only leaf nodes in the tree.
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
