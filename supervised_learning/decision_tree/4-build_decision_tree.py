@@ -67,26 +67,37 @@ class Node:
 
     def update_bounds_below(self):
         """
-        update bounds for each node.
+        dictionaries contain the bounds for each feature.
         """
         if self.is_root:
-            self.upper = {0: np.inf}
             self.lower = {0: -np.inf}
+            self.upper = {0: np.inf}
 
-        for child in [self.left_child, self.right_child]:
-            if child:
-                if child is self.left_child:
-                    child.lower = dict(self.lower)
-                    child.upper = dict(self.upper)
-                    child.upper[self.feature] = self.threshold
+        if self.left_child:
+            self.left_child.lower = self.lower.copy()
+            self.left_child.upper = self.upper.copy()
 
-                elif child is self.right_child:
-                    child.lower = dict(self.lower)
-                    child.upper = dict(self.upper)
-                    child.lower[self.feature] = self.threshold
+            if self.feature in self.left_child.lower:
+                self.left_child.lower[self.feature] = max(
+                        self.threshold, self.left_child.lower[self.feature]
+                        )
+            else:
+                self.left_child.lower[self.feature] = self.threshold
 
-                child.update_bounds_below()
+            self.left_child.update_bounds_below()
 
+        if self.right_child:
+            self.right_child.lower = self.lower.copy()
+            self.right_child.upper = self.upper.copy()
+
+            if self.feature in self.right_child.upper:
+                self.right_child.upper[self.feature] = min(
+                        self.threshold, self.right_child.upper[self.feature]
+                        )
+            else:
+                self.right_child.upper[self.feature] = self.threshold
+
+            self.right_child.update_bounds_below()
 
     def __str__(self):
         """
