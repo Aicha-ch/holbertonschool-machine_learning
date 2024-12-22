@@ -27,7 +27,7 @@ class Node:
 
     def max_depth_below(self):
         """
-        Computes the maximum depth of the subtree rooted at this node
+        Computes the maximum depth of the subtree rooted at this node.
         """
         max_depth = self.depth
         if self.left_child is not None:
@@ -67,7 +67,7 @@ class Node:
 
     def update_bounds_below(self):
         """
-        dictionaries contain the bounds for each feature.
+        Updates the dictionaries containing the bounds for each feature.
         """
         if self.is_root:
             self.lower = {0: -np.inf}
@@ -79,8 +79,8 @@ class Node:
 
             if self.feature in self.left_child.lower:
                 self.left_child.lower[self.feature] = max(
-                        self.threshold, self.left_child.lower[self.feature]
-                        )
+                    self.threshold, self.left_child.lower[self.feature]
+                )
             else:
                 self.left_child.lower[self.feature] = self.threshold
 
@@ -92,12 +92,47 @@ class Node:
 
             if self.feature in self.right_child.upper:
                 self.right_child.upper[self.feature] = min(
-                        self.threshold, self.right_child.upper[self.feature]
-                        )
+                    self.threshold, self.right_child.upper[self.feature]
+                )
             else:
                 self.right_child.upper[self.feature] = self.threshold
 
             self.right_child.update_bounds_below()
+
+    def update_indicator(self):
+        """
+        Updates the indicator function for the node based on its bounds.
+        """
+
+        def is_large_enough(x):
+            """
+            Checks if each individual's features are greater than or equal
+            to the lower bounds for all features.
+            """
+            return np.all(
+                np.array(
+                    [x[:, key] >= self.lower[key] for key in self.lower.keys()]
+                ),
+                axis=0
+            )
+
+        def is_small_enough(x):
+            """
+            Checks if each individual's features are less than or equal
+            to the upper bounds for all features.
+            """
+            return np.all(
+                np.array(
+                    [x[:, key] <= self.upper[key] for key in self.upper.keys()]
+                ),
+                axis=0
+            )
+
+        # Combine both checks to create the indicator function
+        self.indicator = lambda x: np.logical_and(
+            is_large_enough(x),
+            is_small_enough(x)
+            )
 
     def __str__(self):
         """
@@ -115,25 +150,6 @@ class Node:
             node_representation += f"\n    +---> {right_str}"
 
         return node_representation
-
-def update_indicator(self):
-        """
-        Update the indicator function based on the lower and upper bounds.
-        """
-        def is_large_enough(x):
-            return np.all(
-                np.array([np.greater(x[:, key], self.lower[key])
-                          for key in self.lower]), axis=0
-            )
-
-        def is_small_enough(x):
-            return np.all(
-                np.array([np.less_equal(x[:, key], self.upper[key])
-                          for key in self.upper]), axis=0
-            )
-
-        self.indicator = lambda x: np.all(
-            np.array([is_large_enough(x), is_small_enough(x)]), axis=0)
 
 
 class Leaf(Node):
@@ -169,18 +185,12 @@ class Leaf(Node):
 
     def update_bounds_below(self):
         """
-        update the bounds for the node and its children.
+        Updates the bounds for the node and its children.
         """
         pass
 
     def __str__(self):
         return (f"-> leaf [value={self.value}]")
-
-    def update_indicator(self):
-        """
-        Updates the indicator function for this leaf node.
-        """
-        self.indicator = lambda x: np.ones(x.shape[0], dtype=bool) 
 
 
 class Decision_Tree():
@@ -206,13 +216,13 @@ class Decision_Tree():
 
     def depth(self):
         """
-         Returns the maximum depth of the entire tree.
+        Returns the maximum depth of the entire tree.
         """
         return self.root.max_depth_below()
 
     def count_nodes(self, only_leaves=False):
         """
-        Counts the total nodes or only leaf nodes in the tree
+        Counts the total nodes or only leaf nodes in the tree.
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
