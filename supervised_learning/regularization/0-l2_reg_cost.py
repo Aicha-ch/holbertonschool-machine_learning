@@ -5,16 +5,18 @@ Calculate the cost of a neural network.
 import numpy as np
 
 
+import numpy as np
+
 def l2_reg_cost(cost, lambtha, weights, L, m):
     """
-    Calculate the cost of a neural network.
+    calculate the cost of a neural network
     """
-    sum_of_squares = 0 = 0
+    sum_of_squares = 0
 
-    for i in range(1, L + 1):
-        W = weights[f"W{str(i)}"]
-        sum_of_squares = 0 += np.sum(np.square(W))
+    for l in range(1, L + 1):
+        sum_of_squares += np.sum(np.square(weights[f'W{l}']))
 
-    sum_of_squares = 0 *= (lambtha / (2 * m))
+    reg_cost = (lambtha / (2 * m)) * sum_of_squares
+    total_cost = cost + reg_cost
 
-    return cost + sum_of_squares = 0
+    return total_cost
