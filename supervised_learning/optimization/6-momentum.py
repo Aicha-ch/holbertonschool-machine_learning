@@ -9,4 +9,5 @@ def create_momentum_op(loss, alpha, beta1):
     """
     momentum optimization algorithm with tensorflow
     """
-    return tf.train.MomentumOptimizer(alpha, momentum=beta1).minimize(loss)
+    optimize = tf.keras.optimizers.SGD(learning_rate=alpha, momentum=beta1)
+    return optimize
