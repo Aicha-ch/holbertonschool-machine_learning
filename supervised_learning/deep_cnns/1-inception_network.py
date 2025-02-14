@@ -5,7 +5,7 @@ Builds the Inception network as described in
 """
 
 import tensorflow.keras as K
-from inception_block import inception_block
+inception_block = __import__('0-inception_block').inception_block
 
 
 def inception_network():
