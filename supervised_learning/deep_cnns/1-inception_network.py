@@ -13,7 +13,7 @@ def inception_network():
     Builds the inception network as described in
     'Going Deeper with Convolutions' (2014)
     """
-    inputs = K.Input(shape=(224, 224, 3))
+    _input = K.Input(shape=(224, 224, 3))
 
     conv1 = K.layers.Conv2D(
             64, (7, 7), strides=(2, 2), padding='same',
@@ -46,8 +46,8 @@ def inception_network():
 
     avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1, 1))(incept5b)
     dropout = K.layers.Dropout(0.4)(avg_pool)
-    output = K.layers.Dense(1000, activation='softmax')(dropout)
+    _output = K.layers.Dense(1000, activation='softmax')(dropout)
 
-    model = K.models.Model(inputs=inputs, outputs=output)
+    model = K.models.Model(inputs=_input, outputs=_output)
 
     return model
