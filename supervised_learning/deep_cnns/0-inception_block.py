@@ -31,6 +31,6 @@ def inception_block(A_prev, filters):
                                       activation='relu')(maxpool)
 
     inception_output = K.layers.Concatenate(
-        axis=-1)([conv_F1, conv_F3, conv-F5, maxpool_conv_F1])
+        axis=-1)([conv_F1, conv_F3, conv_F5, maxpool_conv_F1])
 
     return inception_output
