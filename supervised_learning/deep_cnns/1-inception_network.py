@@ -46,8 +46,8 @@ def inception_network():
 
     avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1, 1))(incept5b)
     dropout = K.layers.Dropout(0.4)(avg_pool)
-    output_layer = K.layers.Dense(1000, activation='softmax')(dropout)
+    output = K.layers.Dense(1000, activation='softmax')(dropout)
 
-    model = K.models.Model(inputs=input_layer, outputs=output_layer)
+    model = K.models.Model(inputs=inputs, outputs=output)
 
     return model
