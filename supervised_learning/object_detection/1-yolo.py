@@ -48,7 +48,7 @@ class Yolo:
         grid = np.tile(grid[..., np.newaxis, :], (1, 1, anchors.shape[0], 1))
 
         b_xy = (self.sigmoid(t_xy) + grid) / [grid_w, grid_h]
-        b_xy1, b_xy2 = b_xy + (b_wh / 2), b_xy - (b_wh / 2)
+        b_xy1, b_xy2 = b_xy - (b_wh / 2), b_xy + (b_wh / 2)
         
 
         box = np.concatenate((b_xy1, b_xy2), axis=-1) * np.tile(input_size, 2)
