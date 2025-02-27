@@ -51,7 +51,7 @@ class Yolo:
         b_xy1, b_xy2 = b_xy - (b_wh / 2), b_xy + (b_wh / 2)
         
 
-        box = np.concatenate((b_xy1, b_xy2), axis=-1) * np.tile(input_size, 2)
+        box = np.concatenate((b_xy1, b_xy2), axis=-1) * np.tile(image_size, 2)
 
         boxes.append(box)
         box_confidences.append(box_conf)
