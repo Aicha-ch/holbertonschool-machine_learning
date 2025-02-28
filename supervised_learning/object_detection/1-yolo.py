@@ -12,7 +12,12 @@ class Yolo:
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """Class constructor"""
-        self.model = K.models.load_model(model_path)
+        try:
+            self.model = K.models.load_model(model_path)
+            print("loaded model !")
+            except Exception as e:
+                print(f"model loading error : {e}")
+                exit(1)
 
         with open(classes_path, 'r') as file:
             self.class_names = [line.strip() for line in file]
