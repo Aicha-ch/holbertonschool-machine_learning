@@ -9,6 +9,7 @@ import cv2
 import os
 import glob
 
+
 class Yolo:
     """Yolo v3 algorithm for object detection"""
 
