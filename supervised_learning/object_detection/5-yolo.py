@@ -176,8 +176,7 @@ class Yolo:
         rescaled = resized / 255.0
         pimages.append(rescaled)
 
-        pimages = np.array(pimages)
-        image_shapes = np.array(image_shapes)
+    pimages = np.array(pimages)
+    image_shapes = np.array(image_shapes)
 
-        return pimages, image_shapes
-        
+    return pimages, image_shapes
