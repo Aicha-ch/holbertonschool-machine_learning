@@ -12,12 +12,7 @@ class Yolo:
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """Class constructor"""
-        try:
-            self.model = K.models.load_model(model_path)
-            print("loaded model !")
-            except Exception as e:
-                print(f"model loading error : {e}")
-                exit(1)
+        self.model = K.models.load_model(model_path)
 
         with open(classes_path, 'r') as file:
             self.class_names = [line.strip() for line in file]
@@ -42,33 +37,33 @@ class Yolo:
         image_height, image_width = image_size
 
         for i, output in enumerate(outputs):
-            grid_height, grid_width, anchor_boxes, _ = output.shape
-            anchors = self.anchors[i]
+            grid_height, grid_width = output.shape[:2]
 
-            t_xy = output[..., :2]
-            t_wh = output[..., 2:4]
+            t_x = output[..., 0]
+            t_y = output[..., 1]
+            t_w = output[..., 2]
+            t_h = output[..., 3]
 
-            sigmoid_conf = self.sigmoid(output[..., 4])
-            sigmoid_prob = self.sigmoid(output[..., 5:])
+            c_x, c_y = np.meshgrid(np.arange(grid_width),
+                                   np.arange(grid_height))
 
-            box_conf = np.expand_dims(sigmoid_conf, axis=-1)
-            box_class_prob = sigmoid_prob
+            c_x = np.expand_dims(c_x, axis=-1)
+            c_y = np.expand_dims(c_y, axis=-1)
 
-            b_wh = anchors * np.exp(t_wh)
-            b_wh /= self.model.input.shape[1:3]
+            bx = (self.sigmoid(t_x) + c_x) / grid_width
+            by = (self.sigmoid(t_y) + c_y) / grid_height
+            bw = (np.exp(t_w) * self.anchors[i,
+                  :, 0]) / self.model.input.shape[1]
+            bh = (np.exp(t_h) * self.anchors[i,
+                  :, 1]) / self.model.input.shape[2]
 
-            grid = np.indices((grid_height, grid_width)).transpose(1, 2, 0)
-            grid = np.expand_dims(grid, axis=2)
+            x1 = (bx - bw / 2) * image_width
+            y1 = (by - bh / 2) * image_height
+            x2 = (bx + bw / 2) * image_width
+            y2 = (by + bh / 2) * image_height
 
-            b_xy = (self.sigmoid(t_xy) + grid) / [grid_width, grid_height]
-
-            b_xy1 = b_xy - (b_wh / 2)
-            b_xy2 = b_xy + (b_wh / 2)
-            box = np.concatenate((b_xy1, b_xy2), axis=-1)
-            box *= np.array([image_width, image_height, image_width, image_height])
-
-            boxes.append(box)
-            box_confidences.append(box_conf)
-            box_class_probs.append(box_class_prob)
+            boxes.append(np.stack([x1, y1, x2, y2], axis=-1))
+            box_confidences.append(self.sigmoid(output[..., 4:5]))
+            box_class_probs.append(self.sigmoid(output[..., 5:]))
 
         return boxes, box_confidences, box_class_probs
