@@ -151,12 +151,11 @@ class Yolo:
                 np.array(nms_classes),
                 np.array(nms_scores))
 
+    @staticmethod
     def load_images(folder_path):
         """
         Load images
         """
-        image_paths = glob.glob(folder_path + "/*")
-        images = []
-        for image in image_paths:
-            images.append(cv2.imread(image))
-        return (images, image_paths)
+        image_paths = glob.glob(os.path.join(folder_path, "*"))
+        images = [cv2.imread(image_path) for image_path in image_paths]
+        return images, image_paths
