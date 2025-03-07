@@ -18,7 +18,7 @@ class NST:
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """
-        
+        construcor function
         """
         if (not isinstance(style_image, np.ndarray)
                 or style_image.shape[-1] != 3):
