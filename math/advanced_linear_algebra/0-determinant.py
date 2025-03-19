@@ -25,9 +25,9 @@ def determinant(matrix):
     if len(matrix) == 2:
         return matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]
 
-    determinant = 0
+    det = 0
     for factor_idx, factor in enumerate(matrix[0]):
         sub_matrix = [elem[:factor_idx] + elem[factor_idx + 1:]
                       for elem in matrix[1:]]
-        determinant += (-1)**factor_idx * factor * determinant(sub_matrix)
-    return determinant
+        det += (-1)**factor_idx * factor * determinant(sub_matrix)
+    return det
