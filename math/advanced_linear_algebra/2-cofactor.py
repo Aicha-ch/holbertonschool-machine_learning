@@ -83,9 +83,13 @@ def cofactor(matrix):
     for i in range(n):
         cofactor_row = []
         for j in range(n):
-            minor = [row[:j] + row[j+1:] for idx, row in enumerate(matrix) if idx != i]
+            minor = [
+                row[:j] + row[j+1:]
+                for idx, row in enumerate(matrix)
+                if idx != i
+            ]
             cofactor_value = ((-1) ** (i + j)) * determinant(minor)
             cofactor_row.append(cofactor_value)
         cofactor_matrix.append(cofactor_row)
-    
+
     return cofactor_matrix
