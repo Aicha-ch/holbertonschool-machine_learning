@@ -32,6 +32,7 @@ def determinant(matrix):
         det += (-1)**factor_idx * factor * determinant(sub_matrix)
     return det
 
+
 def minor(matrix):
     """
     Calculates the minor matrix of a matrix.
