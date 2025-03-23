@@ -2,10 +2,9 @@
 """exponential class for distribution"""
 
 
-
 class Exponential:
     """Represents an exponential distribution"""
-    
+
     def __init__(self, data=None, lambtha=1.):
         """Class constructor"""
         if data is None:
