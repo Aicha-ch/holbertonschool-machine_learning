@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Normal class for representing a normal distribution.
+Normal class for  normal distribution.
 """
 
 
 class Normal:
     """Represents a normal distribution"""
-    
+
     def __init__(self, data=None, mean=0., stddev=1.):
         """Class constructor"""
         if data is None:
