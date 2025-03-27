@@ -34,6 +34,7 @@ def likelihood(x, n, P):
 
     return likelihoods
 
+
 def intersection(x, n, P, Pr):
     """
     Calculate the intersection of obtaining the observed data.
