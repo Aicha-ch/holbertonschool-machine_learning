@@ -6,11 +6,6 @@ Calculates the likelihood.
 import numpy as np
 
 
-def binomial_coefficient(n, k):
-    """Calculate binomial coefficient using factorial from numpy."""
-    return np.math.factorial(n) // (np.math.factorial(k) * np.math.factorial(n - k))
-
-
 def likelihood(x, n, P):
     """
     Calculates the likelihood.
@@ -31,7 +26,8 @@ def likelihood(x, n, P):
         raise ValueError("All values in P must be in the range [0, 1]")
 
     # Calculate the likelihood
-    binomial_coeff = binomial_coefficient(n, x)
-    likelihoods = binomial_coeff * np.power(P, x) * np.power((1 - P), (n - x))
+    factorial = np.math.factorial
+    comb = factorial(n) / (factorial(x) * factorial(n - x))
+    likelihoods = comb * (P ** x) * ((1 - P) ** (n - x))
 
     return likelihoods
