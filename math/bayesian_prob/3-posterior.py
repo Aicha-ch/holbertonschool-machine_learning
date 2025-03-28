@@ -97,6 +97,7 @@ def marginal(x, n, P, Pr):
 
     return marginal_probability
 
+
 def posterior(x, n, P, Pr):
     """
     Calculate the posterior probability.
