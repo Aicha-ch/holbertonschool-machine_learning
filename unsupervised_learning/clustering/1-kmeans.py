@@ -54,7 +54,7 @@ def kmeans(X, k, iterations=1000):
         distances = np.sqrt(np.sum((X - C[:, np.newaxis]) ** 2, axis=2))
         clss = np.argmin(distances, axis=0)
 
-        if np.allclose(C, prev_ctds):
+        if np.allclose(C, C_prev):
             break
 
     return C, clss
