@@ -23,6 +23,7 @@ def initialize(X, k):
 
     return clusters
 
+
 def kmeans(X, k, iterations=1000):
     """
     Performs K-means on a dataset.
