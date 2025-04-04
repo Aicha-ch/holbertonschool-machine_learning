@@ -17,11 +17,10 @@ def initialize(X, k):
     if not isinstance(k, int) or k <= 0:
         return None
 
-    low_values = np.min(X, axis=0)
-    high_values = np.max(X, axis=0)
-    clusters = np.random.uniform(low_values, high_values, size=(k, X.shape[1]))
+    np.random.seed(0)
 
-    return clusters
+    indices = np.random.choice(X.shape[0], k, replace=False)
+    return X[indices]
 
 def kmeans(X, k, iterations=1000):
     """
