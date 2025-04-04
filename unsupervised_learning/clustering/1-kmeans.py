@@ -17,10 +17,11 @@ def initialize(X, k):
     if not isinstance(k, int) or k <= 0:
         return None
 
-    np.random.seed(0)
+    low_values = np.min(X, axis=0)
+    high_values = np.max(X, axis=0)
+    clusters = np.random.uniform(low_values, high_values, size=(k, X.shape[1]))
 
-    indices = np.random.choice(X.shape[0], k, replace=False)
-    return X[indices]
+    return clusters
 
 def kmeans(X, k, iterations=1000):
     """
@@ -39,19 +40,21 @@ def kmeans(X, k, iterations=1000):
         return None, None
 
     for _ in range(iterations):
-        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-        clss = np.argmin(distances, axis=1)
-
-        C_prev = C.copy()
+        C_prev = np.copy(C)
+        distances = np.sqrt(np.sum((X - C[:, np.newaxis]) ** 2, axis=2))
+        clss = np.argmin(distances, axis=0)
 
         for i in range(k):
-            points = X[clss == i]
-            if points.shape[0] == 0:
-                C[i] = np.random.uniform(np.min(X, axis=0), np.max(X, axis=0))
+            cluster_mask = X[clss == i]
+            if len(cluster_mask) == 0:
+                C[i] = initialize(X, 1)
             else:
-                C[i] = np.mean(points, axis=0)
+                C[i] = np.mean(X[clss == i], axis=0)
 
-        if np.allclose(C, C_prev):
+        distances = np.sqrt(np.sum((X - C[:, np.newaxis]) ** 2, axis=2))
+        clss = np.argmin(distances, axis=0)
+
+        if np.allclose(C, prev_ctds):
             break
 
     return C, clss
