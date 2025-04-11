@@ -4,6 +4,8 @@ Regular Markov Chain
 """
 
 import numpy as np
+
+
 def regular(P):
     """
     Determines the steady state probabilities
