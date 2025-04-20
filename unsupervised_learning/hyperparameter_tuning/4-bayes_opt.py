@@ -43,6 +43,7 @@ class BayesianOptimization:
         Z = improvement / sigma_s
         EI = improvement * norm.cdf(Z) + sigma_s * norm.pdf(Z)
 
-        X_next = self.X_s[np.argmax(EI)]
+        X_next = self.X_s[np.argmax(EI)].reshape(1,)
 
+        EI = EI.reshape(-1)
         return X_next, EI
