@@ -28,6 +28,7 @@ class BayesianOptimization:
         self.minimize = minimize
 
     
+    
     def acquisition(self):
         """
         Calculate the next best sample location.
