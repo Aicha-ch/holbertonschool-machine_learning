@@ -31,19 +31,22 @@ class BayesianOptimization:
         """
         Calculate the next best sample location.
         """
-        mu_s, sigma_s = self.gp.predict(self.X_s)
+        mu, sigma = self.gp.predict(self.X_s)
+
+        sigma = sigma.flatten()
 
         if self.minimize:
-            Y_best = np.min(self.gp.Y)
-            improvement = Y_best - mu_s - self.xsi
+            mu_sample_opt = np.min(self.gp.Y)
+            improvement = mu_sample_opt - mu - self.xsi
         else:
-            Y_best = np.max(self.gp.Y)
-            improvement = mu_s - Y_best - self.xsi
+            mu_sample_opt = np.max(self.gp.Y)
+            improvement = mu - mu_sample_opt - self.xsi
 
-        Z = improvement / sigma_s
-        EI = improvement * norm.cdf(Z) + sigma_s * norm.pdf(Z)
+        with np.errstate(divide='warn'):
+            Z = improvement / sigma
+            EI = improvement * norm.cdf(Z) + sigma * norm.pdf(Z)
+            EI[sigma == 0.0] = 0.0
 
         X_next = self.X_s[np.argmax(EI)].reshape(1,)
 
-        EI = EI.reshape(-1)
         return X_next, EI
