@@ -26,7 +26,7 @@ class RNNEncoder(tf.keras.layers.Layer):
 
     def initialize_hidden_state(self):
         """
-        Initializes the hidden states 
+        Initializes the hidden states
         """
         return tf.zeros((self.batch, self.units))
 
