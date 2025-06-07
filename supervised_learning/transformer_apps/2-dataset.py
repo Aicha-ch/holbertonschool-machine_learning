@@ -26,7 +26,7 @@ class Dataset:
                                     split='validation', as_supervised=True)
 
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
-            self.data_train
+            self.data_train)
 
         # Tokenize the dataset splits using the tf_encode method
          self.data_train = self.data_train.map(
