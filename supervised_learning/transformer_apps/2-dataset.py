@@ -83,12 +83,13 @@ class Dataset:
 
     def tf_encode(self, pt, en):
         """
-        Tf wrapper
+        A TensorFlow wrapper for the encode method.
         """
-        result_pt, result_en = tf.py_function(self.encode,
-                                              [pt, en],
-                                              [tf.int64, tf.int64])
-        result_pt.set_shape([None])
-        result_en.set_shape([None])
+        pt_tokens, en_tokens = tf.py_function(func=self.encode,
+                                              inp=[pt, en],
+                                              Tout=[tf.int64, tf.int64])
 
-        return result_pt, result_en
+        pt_tokens.set_shape([None])
+        en_tokens.set_shape([None])
+
+        return pt_tokens, en_tokens
