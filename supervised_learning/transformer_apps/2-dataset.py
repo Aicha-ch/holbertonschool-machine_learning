@@ -52,7 +52,7 @@ class Dataset:
             'bert-base-uncased', use_fast=True,
             clean_up_tokenization_spaces=True)
 
-        ttokenizer_pt = tokenizer_pt.train_new_from_iterator(pt_sentences,
+        tokenizer_pt = tokenizer_pt.train_new_from_iterator(pt_sentences,
                                                             vocab_size=2**13)
         tokenizer_en = tokenizer_en.train_new_from_iterator(en_sentences,
                                                             vocab_size=2**13)
@@ -84,7 +84,7 @@ class Dataset:
         # to the tokenized sentences
         pt_tokens = [vocab_size_pt] + pt_tokens + [vocab_size_pt + 1]
         en_tokens = [vocab_size_en] + en_tokens + [vocab_size_en + 1]
-        
+
         # Return the tokens as numpy arrays
         return pt_tokens, en_tokens
 
