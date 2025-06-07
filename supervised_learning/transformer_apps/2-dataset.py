@@ -6,7 +6,6 @@ Tokenize tensorflow Dataset
 import tensorflow_datasets as tfds
 import transformers
 import tensorflow as tf
-import numpy as np
 
 
 class Dataset:
@@ -87,7 +86,7 @@ class Dataset:
         en_tokens = [vocab_size_en] + en_tokens + [vocab_size_en + 1]
         
         # Return the tokens as numpy arrays
-        return np.array(pt_tokens, dtype=np.int64), np.array(en_tokens, dtype=np.int64)
+        return np.array(pt_tokens), np.array(en_tokens)
 
     def tf_encode(self, pt, en):
         """
