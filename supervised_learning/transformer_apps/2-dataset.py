@@ -86,7 +86,7 @@ class Dataset:
         en_tokens = [vocab_size_en] + en_tokens + [vocab_size_en + 1]
         
         # Return the tokens as numpy arrays
-        return np.array(pt_tokens), np.array(en_tokens)
+        return pt_tokens, en_tokens
 
     def tf_encode(self, pt, en):
         """
