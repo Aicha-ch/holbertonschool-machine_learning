@@ -54,3 +54,29 @@ class Dataset:
         self.tokenizer_en = tokenizer_en
 
         return self.tokenizer_pt, self.tokenizer_en
+
+    def encode(self, pt, en):
+        """
+        Encodes Portuguese and English sentences into tokens
+        """
+        # Decode the tf.Tensor into strings
+        pt_sentence = pt.numpy().decode('utf-8')
+        en_sentence = en.numpy().decode('utf-8')
+
+        # Get the vocabulary size of both tokenizers
+        vocab_size_pt = self.tokenizer_pt.vocab_size
+        vocab_size_en = self.tokenizer_en.vocab_size
+
+        # Tokenize both sentences without adding special tokens
+        pt_tokens = self.tokenizer_pt.encode(pt_sentence,
+                                             add_special_tokens=False)
+        en_tokens = self.tokenizer_en.encode(en_sentence,
+                                             add_special_tokens=False)
+
+        # Add start (vocab_size) and end (vocab_size + 1) tokens
+        # to the tokenized sentences
+        pt_tokens = [vocab_size_pt] + pt_tokens + [vocab_size_pt + 1]
+        en_tokens = [vocab_size_en] + en_tokens + [vocab_size_en + 1]
+        
+        # Return the tokens as numpy arrays
+        return np.array(pt_tokens), np.array(en_tokens)
