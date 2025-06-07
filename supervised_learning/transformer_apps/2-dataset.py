@@ -26,13 +26,13 @@ class Dataset:
                                     split='validation', as_supervised=True)
 
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
-            self.data_train)
+            self.data_train
 
         # Tokenize the dataset splits using the tf_encode method
-        self.data_train = self.data_train.map(
-                self.tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
+         self.data_train = self.data_train.map(
+            self.tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
         self.data_valid = self.data_valid.map(
-                self.tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
+            self.tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
 
     def tokenize_dataset(self, data):
         """
