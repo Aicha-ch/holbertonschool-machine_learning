@@ -5,6 +5,7 @@ Tokenize tensorflow Dataset
 
 import tensorflow_datasets as tfds
 import transformers
+import tensorflow as tf
 
 
 class Dataset:
