@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """
-SARSA(λ) algorithm.
+SARSA(λ) algorithm
 """
-
 import numpy as np
 
 
 def epsilon_greedy(Q, state, epsilon):
     """
-    Determines the next action.
+    Determines the next action using the epsilon-greedy policy.
     """
     if np.random.uniform(0, 1) > epsilon:
         return np.argmax(Q[state, :])
