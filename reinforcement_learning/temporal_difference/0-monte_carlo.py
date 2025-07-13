@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Monte Carlo algorithm
+Monte Carlo algorithm.
 """
 import numpy as np
 
