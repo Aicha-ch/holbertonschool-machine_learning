@@ -20,14 +20,14 @@ def policy_gradient(state, weight):
     weight matrix.
     """
 
-    action_probs = policy(state, weight)
+    state = state.reshape(1, -1)
 
-    action = np.random.choice(len(action_probs), p=action_probs)
+    probs = policy(state, weight).flatten()
 
-    d_softmax = action_probs.copy()
+    action = np.random.choice(len(probs), p=probs)
 
-    d_softmax[action] -= 1
+    dsoftmax = probs.copy()
+    dsoftmax[action] -= 1
+    gradient = np.outer(state, -dsoftmax)
 
-    grad = -np.outer(state, d_softmax)
-
-    return action, grad
+    return action, gradient
