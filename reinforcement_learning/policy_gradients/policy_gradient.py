@@ -14,6 +14,7 @@ def policy(matrix, weight):
     exp = np.exp(z - np.max(z))
     return exp / exp.sum(axis=1, keepdims=True)
 
+
 def policy_gradient(state, weight):
     """
     Computes the Monte-Carlo policy gradient based on a state and a
