@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Check API.
+Retrieve ships.
 """
+
 import requests
 
 
 def availableShips(passengerCount):
     """
-    Returns a list of ship names.
+    Retrieve ships.
     """
-    base_url = "https://swapi.dev/api/starships/"
+    base_url = "https://swapi-api.hbtn.io/api/starships/"
     ships = []
 
     while base_url:
@@ -18,14 +19,9 @@ def availableShips(passengerCount):
             break
 
         data = response.json()
-        for ship in data.get('results', []):
-            try:
-                passengers = ship.get('passengers', '0').replace(',', '')
-                if passengers.isdigit() and int(passengers) >= passengerCount:
-                    ships.append(ship.get('name'))
-            except ValueError:
-                continue
-
-        base_url = data.get('next')
-
+        for ship in data.get("results", []):
+            passengers = ship.get("passengers", "0").replace(",", "")
+            if passengers.isdigit() and int(passengers) >= passengerCount:
+                ships.append(ship.get("name"))
+        base_url = data.get("next")
     return ships
