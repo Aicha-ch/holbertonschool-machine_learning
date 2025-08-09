@@ -2,7 +2,6 @@
 """
 Fetch and display the first SpaceX launch details.
 """
-
 import requests
 
 
@@ -21,11 +20,11 @@ def main():
     launchpad_id = first_launch['launchpad']
 
     rocket_response = requests.get(
-            f'https://api.spacexdata.com/v4/rockets/{rocket_id}')
+        f'https://api.spacexdata.com/v4/rockets/{rocket_id}')
     rocket_name = rocket_response.json()['name']
 
     launchpad_response = requests.get(
-            f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}')
+        f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}')
     launchpad_data = launchpad_response.json()
     launchpad_name = launchpad_data['name']
     launchpad_locality = launchpad_data['locality']
